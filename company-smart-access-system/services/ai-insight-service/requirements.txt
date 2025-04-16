@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+databases
+pandas
+scikit-learn
+numpy
+joblib

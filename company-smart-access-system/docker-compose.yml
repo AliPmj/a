@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: smartcampus
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+
+  auth-service:
+    build: ./services/auth-service
+    container_name: auth-service
+    ports:
+      - "8005:8005"
+    depends_on:
+      - db
+
+  attendance-service:
+    build: ./services/attendance-service
+    container_name: attendance-service
+    ports:
+      - "8001:8001"
+    depends_on:
+      - db
+
+  food-service:
+    build: ./services/food-service
+    container_name: food-service
+    ports:
+      - "8002:8002"
+    depends_on:
+      - db
+
+  access-control-service:
+    build: ./services/access-control-service
+    container_name: access-control-service
+    ports:
+      - "8003:8003"
+    depends_on:
+      - db
+
+  ai-insight-service:
+    build: ./services/ai-insight-service
+    container_name: ai-insight-service
+    ports:
+      - "8007:8007"
+    depends_on:
+      - db
+
+  gateway-service:
+    build: ./services/gateway-service
+    container_name: gateway-service
+    ports:
+      - "8000:8000"
+    depends_on:
+      - auth-service
+      - attendance-service
+      - food-service
+      - access-control-service
+      - ai-insight-service

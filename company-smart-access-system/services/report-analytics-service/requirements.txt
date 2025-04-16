@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+databases
+pandas
+openpyxl
+reportlab
+aiohttp
